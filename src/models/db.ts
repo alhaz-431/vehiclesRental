@@ -3,14 +3,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// DB Connection
 export const pool = new Pool({
   connectionString: process.env.CONNECTION_STR,
 });
 
-// Initialize Tables
 const initDB = async () => {
-  // Users Table
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
@@ -24,7 +22,6 @@ const initDB = async () => {
     )
   `);
 
-  // Vehicles Table
   await pool.query(`
     CREATE TABLE IF NOT EXISTS vehicles (
       id SERIAL PRIMARY KEY,
@@ -38,7 +35,6 @@ const initDB = async () => {
     )
   `);
 
-  // Bookings Table
   await pool.query(`
     CREATE TABLE IF NOT EXISTS bookings (
       id SERIAL PRIMARY KEY,

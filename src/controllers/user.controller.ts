@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { pool } from "../models/db";
 import { AuthRequest } from "../middlewares/auth.middleware";
 
-// Get all users (admin)
 export const getAllUsers = async (req: AuthRequest, res: Response) => {
   try {
     const result = await pool.query(`SELECT id, name, email, phone, role FROM users`);
@@ -12,7 +11,6 @@ export const getAllUsers = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// Update user (admin or own profile)
 export const updateUser = async (req: AuthRequest, res: Response) => {
   try {
     const { userId } = req.params;
@@ -40,7 +38,6 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// Delete user (admin, only if no active bookings)
 export const deleteUser = async (req: AuthRequest, res: Response) => {
   try {
     const { userId } = req.params;

@@ -1,15 +1,16 @@
-// src/controllers/booking.controller.ts
+
+
 import { AuthRequest } from "../middlewares/auth.middleware";
 import { Request, Response } from "express";
 import { pool } from "../models/db";
 import { calculatePrice } from "../utils/calculatePrice";
 
-// Create Booking
 export const createBooking = async (req: AuthRequest, res: Response) => {
   try {
+
     const { customer_id, vehicle_id, rent_start_date, rent_end_date } = req.body;
 
-    // Check if vehicle exists
+
     const vehicleRes = await pool.query(`SELECT * FROM vehicles WHERE id=$1`, [vehicle_id]);
     if (!vehicleRes.rows.length) {
       return res.status(404).json({ success: false, message: "Vehicle not found" });
@@ -21,14 +22,12 @@ export const createBooking = async (req: AuthRequest, res: Response) => {
 
     const total_price = calculatePrice(vehicleRes.rows[0].daily_rent_price, rent_start_date, rent_end_date);
 
-    // Insert booking
     const bookingRes = await pool.query(
       `INSERT INTO bookings (customer_id, vehicle_id, rent_start_date, rent_end_date, total_price, status) 
        VALUES ($1,$2,$3,$4,$5,'active') RETURNING *`,
       [customer_id, vehicle_id, rent_start_date, rent_end_date, total_price]
     );
 
-    // Update vehicle status
     await pool.query(`UPDATE vehicles SET availability_status='booked' WHERE id=$1`, [vehicle_id]);
 
     res.status(201).json({
@@ -41,7 +40,8 @@ export const createBooking = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// Get Bookings
+
+
 export const getMyBookings = async (req: AuthRequest, res: Response) => {
   try {
     let result;
@@ -69,7 +69,8 @@ export const getMyBookings = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// Update Booking (cancel / return)
+
+
 export const updateBooking = async (req: AuthRequest, res: Response) => {
   try {
     const { bookingId } = req.params;
@@ -110,3 +111,5 @@ export const updateBooking = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ success: false, message: "Error updating booking", errors: err.message });
   }
 };
+
+

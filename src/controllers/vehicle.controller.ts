@@ -61,7 +61,6 @@ export const deleteVehicle = async (req: Request, res: Response) => {
   try {
     const { vehicleId } = req.params;
 
-    // Check for active bookings
     const bookings = await pool.query(`SELECT * FROM bookings WHERE vehicle_id=$1 AND status='active'`, [vehicleId]);
     if (bookings.rows.length > 0) return res.status(400).json({ success: false, message: "Cannot delete vehicle with active bookings" });
 

@@ -1,5 +1,4 @@
 /**
- * Calculate total price for booking
  * @param dailyRate Daily rent price of the vehicle
  * @param start Start date string (YYYY-MM-DD)
  * @param end End date string (YYYY-MM-DD)

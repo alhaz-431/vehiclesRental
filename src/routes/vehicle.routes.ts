@@ -10,7 +10,6 @@ import { authenticate } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-// Only admin can create/update/delete
 router.post("/", authenticate, createVehicle);
 router.get("/", getVehicles);
 router.get("/:id", getVehicles);
